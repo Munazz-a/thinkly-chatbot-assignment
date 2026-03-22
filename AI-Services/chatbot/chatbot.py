@@ -1,8 +1,6 @@
 import os
-from urllib import response
 from dotenv import load_dotenv
 from groq import Groq
-from typer import prompt
 
 load_dotenv()  # 👈 MUST be before Groq()
 
@@ -12,26 +10,63 @@ client = Groq(api_key=api_key)
 
 # Question Answering (RAG)
 def answer_question(question):
-    prompt = f"""
+    q = question.lower()
+
+    # 🧠 MOCK INTERVIEW MODE
+    if "start mock interview" in q:
+        prompt = """
+You are a professional HR interviewer for a Software Engineer role.
+
+Start a mock interview.
+
+- Ask ONE question at a time
+- Wait for the user's response
+- Keep it realistic and conversational
+
+Start with:
+"Tell me about yourself."
+"""
+    elif "answer:" in q or "my answer:" in q:
+        prompt = f"""
+You are an HR interviewer evaluating a candidate.
+
+User's answer:
+{question}
+
+Give feedback in Markdown format:
+
+**Strengths**
+- ...
+
+**Weaknesses**
+- ...
+
+**Improved Answer**
+- ...
+
+Then ask the NEXT interview question.
+"""
+    else:
+        prompt = f"""
 You are an expert Placement Interview Coach.
 
-You help students with:
-- DSA (Data Structures & Algorithms)
-- HR interview questions
-- Resume improvement
-- Behavioral answers
+Format response in Markdown:
 
-Your style:
-- Clear and structured
-- Practical and actionable
-- Slightly encouraging (not robotic)
+**Explanation**
+...
 
-Response format:
+**Key Points**
+- ...
 
-1. Brief Explanation
-2. Key Points (bullet points)
-3. Example (if applicable)
-4. Final Tip
+**Example**
+...
+
+**Final Tip**
+...
+
+Also suggest 2 short follow-up questions at the end like:
+- Follow-up: ...
+- Follow-up: ...
 
 Question: {question}
 """
