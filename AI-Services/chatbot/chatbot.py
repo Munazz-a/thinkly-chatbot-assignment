@@ -8,7 +8,6 @@ api_key = os.getenv("GROQ_API_KEY")
 
 client = Groq(api_key=api_key)
 
-# Question Answering (RAG)
 def answer_question(question):
     q = question.lower()
 
@@ -19,21 +18,29 @@ You are a professional HR interviewer for a Software Engineer role.
 
 Start a mock interview.
 
-- Ask ONE question at a time
-- Wait for the user's response
-- Keep it realistic and conversational
+STRICT RULES:
+- Ask ONLY ONE question at a time
+- DO NOT answer on behalf of the candidate
+- DO NOT add explanations
+- Wait for user's response before continuing
 
 Start with:
 "Tell me about yourself."
 """
+
     elif "answer:" in q or "my answer:" in q:
         prompt = f"""
 You are an HR interviewer evaluating a candidate.
 
+STRICT RULES:
+- Evaluate ONLY the given answer
+- DO NOT introduce unrelated topics
+- After feedback, ask ONLY ONE next relevant interview question
+
 User's answer:
 {question}
 
-Give feedback in Markdown format:
+Format in Markdown:
 
 **Strengths**
 - ...
@@ -44,11 +51,18 @@ Give feedback in Markdown format:
 **Improved Answer**
 - ...
 
-Then ask the NEXT interview question.
+**Next Question**
+- ...
 """
+
     else:
         prompt = f"""
 You are an expert Placement Interview Coach.
+
+STRICT RULES:
+- Answer ONLY the user's question
+- DO NOT introduce new topics or random interview questions
+- Stay focused and relevant
 
 Format response in Markdown:
 
@@ -58,15 +72,17 @@ Format response in Markdown:
 **Key Points**
 - ...
 
-**Example**
+**Example Answer**
 ...
 
 **Final Tip**
 ...
 
-Also suggest 2 short follow-up questions at the end like:
-- Follow-up: ...
-- Follow-up: ...
+At the end, suggest EXACTLY 2 relevant follow-up questions:
+
+**Follow-up**
+- ...
+- ...
 
 Question: {question}
 """
@@ -74,7 +90,7 @@ Question: {question}
     response = client.chat.completions.create(
         model="llama-3.1-8b-instant",
         messages=[{"role": "user", "content": prompt}],
-        temperature=0.5,
+        temperature=0.4,  # slightly lower = more control
         max_tokens=700
     )
 
