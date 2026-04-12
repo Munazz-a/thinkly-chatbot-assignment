@@ -4,6 +4,12 @@ An AI-powered chatbot designed to help students prepare for technical and HR int
 
 ---
 
+## 🚀 Live Demo
+
+[![Live Demo](https://img.shields.io/badge/Live%20Site-ThinklyChatbot-blue?style=for-the-badge)](https://thinkly-chatbot-assignment.vercel.app/)
+
+---
+
 ## 🔍 Why I Built This
 
 Interview preparation is often scattered across platforms — DSA practice, HR prep, resume feedback — all in different places.
@@ -101,11 +107,7 @@ Frontend (React) → API calls → FastAPI backend → Groq LLM → Response
 
 ---
 
-## 🚀 Live Demo
 
-[![Live Demo](https://img.shields.io/badge/Live%20Site-ThinklyChatbot-blue?style=for-the-badge)](https://thinkly-chatbot-assignment.vercel.app/)
-
----
 
 ## 📂 Repository Structure
 
@@ -123,11 +125,6 @@ AI-Services/   → FastAPI backend
 * Personalised learning paths
 * Resume-based question generation
 
----
-
-## 🎥 Loom Walkthrough
-
-👉 [Add your Loom link here]
 
 ---
 
